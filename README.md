@@ -1,5 +1,6 @@
 # Talk With Gemini
 
+![Discord](https://img.shields.io/discord/1245639658604593152)
 ![GitHub deployments](https://img.shields.io/github/deployments/Amery2010/TalkWithGemini/Production)
 ![GitHub Release](https://img.shields.io/github/v/release/Amery2010/TalkWithGemini)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/xiangfa/talk-with-gemini/latest)
@@ -44,10 +45,11 @@ Supports Gemini 1.5 and Gemini 1.5 Flash multimodal models
 - Full Markdown support: LaTex formulas, code highlighting, and more
 - Automatically compress contextual chat records to save Tokens while supporting very long conversations
 - Privacy and security, all data is saved locally in the user's browser
+- Support PWA, can run as an application
 - Well-designed UI, responsive design, supports dark mode
 - Extremely fast first screen loading speed, supporting streaming response
 - Static deployment supports deployment on any website service that supports static pages, such as Github Page, Cloudflare, Vercel, etc.
-- Multi-language support: English, Simplified Chinese, Traditional Chinese, Japanese, 한국어, Español, Deutsch, Français, Português, Русский and العربية
+- Multi-language support: English、简体中文、繁体中文、日本語、한국어、Español、Deutsch、Français、Português、Русский and العربية
 
 ## 主要功能
 
@@ -59,6 +61,7 @@ Supports Gemini 1.5 and Gemini 1.5 Flash multimodal models
 - 完整的 Markdown 支持：LaTex 公式、代码高亮等等
 - 自动压缩上下文聊天记录，在节省 Token 的同时支持超长对话
 - 隐私安全，所有数据保存在用户浏览器本地
+- 支持 PWA，可以以应用形式运行
 - 精心设计的 UI，响应式设计，支持深色模式
 - 极快的首屏加载速度，支持流式响应
 - 静态部署，支持部署在任何支持静态页面的网站服务，比如 Github Page、Cloudflare、Vercel 等
@@ -67,16 +70,16 @@ Supports Gemini 1.5 and Gemini 1.5 Flash multimodal models
 ## Roadmap
 
 - [x] Reconstruct the topic square and introduce Prompt list
+- [x] Use tauri to package desktop applications
 - [ ] Implementation based on functionCall plug-in
 - [ ] Support conversation list
-- [ ] Use tauri to package desktop applications
 
 ## 开发计划
 
 - [x] 重构话题广场，引入 Prompt 列表
+- [x] 使用 tauri 打包桌面应用
 - [ ] 实现基于 functionCall 插件
 - [ ] 支持对话列表
-- [ ] 使用 tauri 打包桌面应用
 
 ## Get Started
 
@@ -304,7 +307,9 @@ docker run -d --name talk-with-gemini \
    xiangfa/talk-with-gemini
 ```
 
-Or deploy using `docker-compose.yml`:
+If you need to specify other environment variables, please add `-e key=value` to the above command to specify it.
+
+Deploy using `docker-compose.yml`:
 
 ```shell
 version: '3.9'
@@ -316,10 +321,8 @@ services:
          - GEMINI_API_KEY=AIzaSy...
          - ACCESS_PASSWORD=your-password
       ports:
-         - '5481:3000'
+         - 5481:3000
 ```
-
-If you need to specify other environment variables, please add `-e key=value` to the above command to specify it.
 
 ## 部署
 
@@ -345,7 +348,9 @@ docker run -d --name talk-with-gemini \
    xiangfa/talk-with-gemini
 ```
 
-或使用 `docker-compose.yml` 部署：
+如果您需要指定其他环境变量，请自行在上述命令中增加 `-e 环境变量=环境变量值` 来指定。
+
+使用 `docker-compose.yml` 部署：
 
 ```shell
 version: '3.9'
@@ -357,10 +362,8 @@ services:
          - GEMINI_API_KEY=AIzaSy...
          - ACCESS_PASSWORD=your-password
       ports:
-         - '5481:3000'
+         - 5481:3000
 ```
-
-如果您需要指定其他环境变量，请自行在上述命令中增加 `-e 环境变量=环境变量值` 来指定。
 
 ### Static Deployment
 
@@ -404,11 +407,11 @@ Currently, the two models `Gemini 1.5 Pro` and `Gemini 1.5 Flash` support most i
 
 ~~目前了解到的 vercel 与 netlify 都使用了无服务器的边缘计算，虽然响应速度快，但对于上传文件有大小限制。Cloudflare Worker 对于大文件限制（免费用户 500MB，收费用户 5GB）相对宽松，可以用做 api 代理。[如何部署 Cloudflare Worker api 代理](/docs/How-to-deploy-the-Cloudflare-Worker-api-proxy.md)~~
 
-#### 关于无法使用语音对话功能的问题须知
+#### ~~关于无法使用语音对话功能的问题须知~~
 
-目前语音识别使用的是浏览器的 SpeechRecognition 接口，系统会在[部分不支持 SpeechRecognition 接口的浏览器](https://caniuse.com/?search=SpeechRecognition)中**隐藏语音对话功能**。
+~~目前语音识别使用的是浏览器的 SpeechRecognition 接口，系统会在[部分不支持 SpeechRecognition 接口的浏览器](https://caniuse.com/?search=SpeechRecognition)中**隐藏语音对话功能**。~~
 
-由于大部分基于 Chrome 内核的浏览器在 SpeechRecognition 接口的实现上使用了 Google 的语音识别服务，因此需要能够正常访问国际网络的情况下使用。
+~~由于大部分基于 Chrome 内核的浏览器在 SpeechRecognition 接口的实现上使用了 Google 的语音识别服务，因此需要能够正常访问国际网络的情况下使用。~~
 
 #### 为什么我无法上传 doc、excel、pdf 这类常见文档
 
@@ -417,8 +420,6 @@ Currently, the two models `Gemini 1.5 Pro` and `Gemini 1.5 Flash` support most i
 ### 为什么我用 vercel 一键部署后的网站无法在中国正常访问
 
 vercel 部署后生成的域名在几年前就已经被国内网络屏蔽，但并没有屏蔽服务器的 ip 地址。可以自定义域名，就可以在国内正常访问了。由于 vercel 在国内并没有服务器，所以有时候会出现些许的网络波动，属于正常现象。如何设置域名，可以参考我从网上找到的解决文章[Vercel绑定自定义域名](https://docs.tangly1024.com/article/vercel-domain)。
-
-**注意：尽可能不要在微信里使用 vercel 部署的网站，具体原因不多解释**
 
 ## Star History
 
